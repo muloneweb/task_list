@@ -3,25 +3,29 @@
 
 <body>
 
-        <?php
-                $user = 'Login';
-                echo '<h1> hi </h1>';
-                echo  "hello {$user}";
-                echo '</br>Good Day ' . $user . '1';
-                ?></h1>
-        <p>LOGIN</p>
 
-        <form >
-            <label for="username">Username</label><br>
-            <input type="text" id="username" name="username"><br>
-            <label for="password">Password</label><br>
-            <input type="text" id="password" name="password">
-            <input id='submitForm' type="submit" value="Submit">
-        </form>
+    <div style='width: 100%; display: inline-flex; justify-content: center;'>
+        <div>
+            <h1 id="welcomeMessage">Please Login</h1>
+            <!-- <p>LOGIN</p> -->
+            <!-- <?php
+                    echo '<h1 id="welcomeMessage">Please Login</h1>';
+                    ?> -->
+            <div>
+                <form>
+                    <label for="username">Username</label><br>
+                    <input type="text" id="username" name="username"><br>
+                    <label for="password">Password</label><br>
+                    <input type="text" id="password" name="password">
+                </form>
+                <input id='submitForm' style='width: 100%; margin-top: 8px' type="submit" value="Submit">
+            </div>
+        </div>
+    </div>
 
-    
-        <script>
-            document.getElementById('submitForm').addEventListener('click', function(event) {
+
+    <script>
+        document.getElementById('submitForm').addEventListener('click', function(event) {
             // This function will be executed when the submit button is clicked
             event.preventDefault(); // Prevent the default form submission behavior
 
@@ -32,24 +36,38 @@
 
             // Send the form data to the server using fetch API
             fetch('http://localhost/project/api/auth.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json(); // Assuming the server responds with JSON data
-            })
-            .then(function(data) {
-                // Handle the response data from the server here
-            })
-            .catch(function(error) {
-                // Handle errors here
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(function(response) {
+                    console.log(response.ok)
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    if (response.redirected) {
+                        const redirectUrl = response.url;
+                        window.location.href = redirectUrl;
+                    }
+                    return response.json()
+                })
+                .then(function(data) {
+                    console.log(data)
+                    let user = data.user
+                    console.log(user, '<--- user')
+                    document.getElementById('welcomeMessage').innerText = 'Welcome Back ' + user;
+                    if (data.ok) {
+                        console.log(data)
+                        let user = data.user
+                        console.log(user, '<--- user')
+                    }
+                    // Handle the response data from the server here
+                })
+                .catch(function(error) {
+                    // Handle errors here
+                });
         });
-        </script> 
-      
+    </script>
+
 
 </body>
 
