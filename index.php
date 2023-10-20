@@ -40,7 +40,6 @@
                     body: formData
                 })
                 .then(function(response) {
-                    console.log(response.ok)
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
@@ -53,12 +52,12 @@
                 .then(function(data) {
                     console.log(data)
                     let user = data.user
-                    console.log(user, '<--- user')
-                    document.getElementById('welcomeMessage').innerText = 'Welcome Back ' + user;
+                    // console.log(user, '<--- user')
+                    // document.getElementById('welcomeMessage').innerText = 'Welcome Back ' + user;
                     if (data.ok) {
-                        console.log(data)
+               
                         let user = data.user
-                        console.log(user, '<--- user')
+                      
                     }
                     // Handle the response data from the server here
                 })
